@@ -1,24 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import './Board.css';
+import { BoardCreate } from './Board.js';
+import React, { useEffect } from 'react';
+import io from 'socket.io-client';
+
+const socket = io();
+let playerIdentifier = null;
 
 function App() {
+  
+  console.log('\n\nAPPJS\n\n');
+  useEffect(() => {
+        socket.on('playerCount', (playerCount) => {
+            console.log('Player count received!');
+            console.log(playerCount);
+            playerIdentifier = playerCount;
+        });
+    },[]);
+  
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div class={playerIdentifier}>
+      <h1>{playerIdentifier}</h1>
+      <BoardCreate />
+      </div>
   );
 }
 
